@@ -15,8 +15,4 @@ data class Vector2(
             else -> throw IllegalArgumentException()
         }
     }
-
-    override fun toString(): String {
-        return "Vector2 ($x,$y)"
-    }
 }

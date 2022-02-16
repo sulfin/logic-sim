@@ -15,8 +15,4 @@ data class Vector2Int(
             else -> throw IllegalArgumentException()
         }
     }
-
-    override fun toString(): String {
-        return "Vector2Int ($x,$y)"
-    }
 }
