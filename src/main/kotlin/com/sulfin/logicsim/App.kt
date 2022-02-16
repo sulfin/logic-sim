@@ -3,13 +3,16 @@
  */
 package com.sulfin.logicsim
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
+import com.sulfin.logicsim.app.MainWindow
+import com.sulfin.logicsim.engine.Window
+import com.sulfin.logicsim.engine.math.Vector2
+import com.sulfin.logicsim.engine.utils.Timer
+import com.sun.tools.javac.Main
 
 fun main() {
-    println(App().greeting)
+    val window = MainWindow()
+
+    val mainThread = Thread(window)
+    mainThread.start()
+
 }
