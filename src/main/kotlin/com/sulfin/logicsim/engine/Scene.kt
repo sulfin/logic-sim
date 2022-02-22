@@ -5,7 +5,7 @@ import java.awt.Graphics2D
 abstract class Scene(
     val name: String,
     val window: Window
-) {
+) : GameObjectContainer {
     val ml = window.ml
     val kl = window.kl
 
@@ -15,9 +15,9 @@ abstract class Scene(
 
     abstract fun init()
 
-    fun addGameObject(g: GameObject) {
-        gameObjects.add(g)
-        renderer.submit(g)
+    override fun addGameObject(gameObject: GameObject) {
+        gameObjects.add(gameObject)
+        renderer.submit(gameObject)
     }
 
     fun update(dt: Double) {

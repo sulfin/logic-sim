@@ -10,12 +10,9 @@ import com.sulfin.logicsim.engine.component.BoxBounds
 import com.sulfin.logicsim.engine.component.CameraPanning
 import com.sulfin.logicsim.engine.component.FPSCounter
 import com.sulfin.logicsim.engine.component.SpriteComponent
-import com.sulfin.logicsim.engine.datastructure.Box
 import com.sulfin.logicsim.engine.math.Vector2
 import java.awt.Color
 import java.awt.Graphics2D
-import kotlin.math.PI
-import kotlin.math.cos
 
 class TestScene(
     window: Window
@@ -23,13 +20,17 @@ class TestScene(
 
     override fun init() {
         println("Initializing $name...")
-        val testbj = GameObject("test obj")
+        val testbj = GameObject(this)
         testbj.addComponent(FPSCounter())
         testbj.addComponent(BoxBounds(Vector2(200f, 200f)))
-        testbj.addComponent(CameraPanning(camera /*Box(Vector2(-50,-50), Vector2(50, 50))*/))
-        gameObjects.add(testbj)
+        testbj.addComponent(CameraPanning(camera))
+
+        val player = GameObject(this, Transform(Vector2(400f, 300f)))
+        player.addComponent(SpriteComponent("assets/sprites/cube.png"))
+        player.addComponent(Player())
+
         val rect = GameObject(
-            "rect",
+            player,
             Transform(
                 Vector2(400f, 200f),
                 Vector2(.5f, .5f),
@@ -38,11 +39,6 @@ class TestScene(
         )
         rect.addComponent(BoxBounds(Vector2(500f, 400f)))
         rect.addComponent(RectComp(Vector2(500f, 400f), Color.CYAN))
-        addGameObject(rect)
-        val player = GameObject("player", Transform(Vector2(400f, 300f)))
-        player.addComponent(SpriteComponent("assets/sprites/cube.png"))
-        player.addComponent(Player())
-        addGameObject(player)
     }
 
     override fun updateScene(dt: Double) {

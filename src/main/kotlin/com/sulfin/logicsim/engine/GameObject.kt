@@ -1,16 +1,28 @@
 package com.sulfin.logicsim.engine
 
+import org.apache.logging.log4j.kotlin.Logging
 import java.awt.Graphics2D
-import java.awt.geom.AffineTransform
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 import kotlin.system.exitProcess
 
 class GameObject(
-    val name: String,
-    val transform: Transform = Transform()
-) {
+    val parent: GameObjectContainer,
+    val transform: Transform = Transform(),
+) : GameObjectContainer {
+    companion object : Logging
+
     private val components: MutableList<Component> = ArrayList()
+
+    val children: MutableList<GameObject> = ArrayList()
+
+    init {
+        parent.addGameObject(this)
+    }
+
+    override fun addGameObject(gameObject: GameObject) {
+        children.add(gameObject)
+    }
 
     fun <C : Component> getComponent(c: KClass<C>): C? {
         components.forEach {
@@ -27,12 +39,20 @@ class GameObject(
     }
 
     fun addComponent(c: Component) {
-        components.add(c)
-        c.gameObject = this
+        if (getComponent(c::class) == null) {
+            components.add(c)
+            c.gameObject = this
+        } else {
+            logger.error("An object can't have two component of the same type: ${c::class}")
+            exitProcess(-10)
+        }
     }
 
     fun update(dt: Double) {
         components.forEach {
+            it.update(dt)
+        }
+        children.forEach {
             it.update(dt)
         }
     }
@@ -41,6 +61,9 @@ class GameObject(
         val affineTransform = transform.affine
         g2.transform(affineTransform)
         components.forEach {
+            it.draw(g2)
+        }
+        children.forEach {
             it.draw(g2)
         }
         g2.transform(affineTransform.createInverse())
