@@ -1,37 +1,55 @@
 package com.sulfin.logicsim.app.scene
 
+import com.sulfin.logicsim.app.component.Player
+import com.sulfin.logicsim.app.component.RectComp
+import com.sulfin.logicsim.engine.GameObject
 import com.sulfin.logicsim.engine.Scene
+import com.sulfin.logicsim.engine.Transform
 import com.sulfin.logicsim.engine.Window
+import com.sulfin.logicsim.engine.component.BoxBounds
+import com.sulfin.logicsim.engine.component.CameraPanning
+import com.sulfin.logicsim.engine.component.FPSCounter
+import com.sulfin.logicsim.engine.component.SpriteComponent
+import com.sulfin.logicsim.engine.datastructure.Box
+import com.sulfin.logicsim.engine.math.Vector2
 import java.awt.Color
 import java.awt.Graphics2D
-import java.awt.event.KeyEvent
+import kotlin.math.PI
+import kotlin.math.cos
 
 class TestScene(
     window: Window
 ) : Scene("Test Scene", window) {
 
-    var showFPS = true
-
     override fun init() {
         println("Initializing $name...")
+        val testbj = GameObject("test obj")
+        testbj.addComponent(FPSCounter())
+        testbj.addComponent(BoxBounds(Vector2(200f, 200f)))
+        testbj.addComponent(CameraPanning(camera /*Box(Vector2(-50,-50), Vector2(50, 50))*/))
+        gameObjects.add(testbj)
+        val rect = GameObject(
+            "rect",
+            Transform(
+                Vector2(400f, 200f),
+                Vector2(.5f, .5f),
+                Math.PI.toFloat()
+            )
+        )
+        rect.addComponent(BoxBounds(Vector2(500f, 400f)))
+        rect.addComponent(RectComp(Vector2(500f, 400f), Color.CYAN))
+        addGameObject(rect)
+        val player = GameObject("player", Transform(Vector2(400f, 300f)))
+        player.addComponent(SpriteComponent("assets/sprites/cube.png"))
+        player.addComponent(Player())
+        addGameObject(player)
     }
 
-    override fun update(dt: Double) {
-        if (showFPS) {
-            window.title = "${window.baseTitle} - " + "%.2f FPS".format(1 / dt)
-        }
+    override fun updateScene(dt: Double) {
     }
 
-    override fun draw(g2: Graphics2D) {
-        g2.color = Color.decode("#222")
+    override fun drawScene(g2: Graphics2D) {
+        g2.color = Color.decode("#999")
         g2.fillRect(0, 0, window.width, window.height)
-
-        g2.color = if (ml.pos.x > 400 && ml.pos.x < 700 && ml.pos.y > 200 && ml.pos.y < 400) Color.GREEN else Color.BLUE
-        g2.fillRect(400, 200, 300, 200)
-
-        if (kl.isKeyPressed(KeyEvent.VK_SPACE)) {
-            g2.color = Color.RED
-            g2.fillOval(window.width / 2, window.height / 2, 100, 50)
-        }
     }
 }
