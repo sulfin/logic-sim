@@ -7,9 +7,7 @@ class KL : KeyAdapter() {
     private val keyPressed: MutableSet<Int> = HashSet()
 
     override fun keyPressed(e: KeyEvent) {
-        if (!keyPressed.contains(e.keyCode)) {
-            keyPressed.add(e.keyCode)
-        }
+        keyPressed.add(e.keyCode)
     }
 
     override fun keyReleased(e: KeyEvent) {
