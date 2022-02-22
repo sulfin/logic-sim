@@ -24,14 +24,14 @@ class CameraPanning(
 
     init {
         ml.registerMousePressed(2) {
-            logger.debug("panning true")
+//            logger.debug("panning true")
             cameraPosBefore = camera.transform.position.copy()
             dpos = Vector2()
             pushPos = Vector2(it.x.toFloat(), it.y.toFloat())
             panning = true
         }
         ml.registerMouseReleased(2) {
-            logger.debug("panning false")
+//            logger.debug("panning false")
             panning = false
         }
         println(MouseEvent.getMaskForButton(MouseEvent.BUTTON2))
