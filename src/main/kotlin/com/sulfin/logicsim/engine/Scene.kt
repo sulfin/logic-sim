@@ -9,7 +9,32 @@ abstract class Scene(
     val ml = window.ml
     val kl = window.kl
 
+    val camera = Camera()
+    val renderer = Renderer(camera)
+    val gameObjects: MutableList<GameObject> = ArrayList()
+
     abstract fun init()
-    abstract fun update(dt: Double)
-    abstract fun draw(g2: Graphics2D)
+
+    fun addGameObject(g: GameObject) {
+        gameObjects.add(g)
+        renderer.submit(g)
+    }
+
+    fun update(dt: Double) {
+        updateScene(dt)
+        gameObjects.forEach { it.update(dt) }
+    }
+
+    fun draw(g2: Graphics2D) {
+        drawScene(g2)
+        renderer.render(g2)
+    }
+
+    open fun updateScene(dt: Double) {
+
+    }
+
+    open fun drawScene(g2: Graphics2D) {
+
+    }
 }

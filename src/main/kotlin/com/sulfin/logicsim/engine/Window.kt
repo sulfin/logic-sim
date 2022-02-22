@@ -7,9 +7,7 @@ import java.awt.Graphics2D
 import java.awt.Image
 import javax.swing.JFrame
 
-abstract class Window(
-
-) : JFrame(), Runnable {
+abstract class Window : JFrame(), Runnable {
 
     companion object {
         lateinit var instance: Window
