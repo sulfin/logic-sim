@@ -12,7 +12,17 @@ data class Vector2(
     operator fun plus(b: Any): Vector2 {
         return when (b) {
             is Vector2 -> Vector2(x + b.x, y + b.y)
+            is Vector2Int -> Vector2(x + b.x, y + b.y)
             else -> throw IllegalArgumentException()
         }
     }
+
+    operator fun minus(b: Any): Vector2 {
+        return when (b) {
+            is Vector2 -> Vector2(x - b.x, y - b.y)
+            is Vector2Int -> Vector2(x - b.x, y - b.y)
+            else -> throw IllegalArgumentException()
+        }
+    }
+
 }
