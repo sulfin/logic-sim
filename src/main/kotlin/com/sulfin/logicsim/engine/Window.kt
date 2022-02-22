@@ -5,12 +5,19 @@ import com.sulfin.logicsim.engine.utils.ML
 import com.sulfin.logicsim.engine.utils.Timer
 import java.awt.Graphics2D
 import java.awt.Image
-import java.awt.event.KeyEvent
 import javax.swing.JFrame
 
 abstract class Window(
 
 ) : JFrame(), Runnable {
+
+    companion object {
+        lateinit var instance: Window
+    }
+
+    init {
+        instance = this
+    }
 
     val ml = ML()
     val kl = KL()
