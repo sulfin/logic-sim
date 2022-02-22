@@ -1,4 +1,3 @@
 package com.sulfin.logicsim.engine.asset
 
-interface Asset {
-}
+interface Asset
